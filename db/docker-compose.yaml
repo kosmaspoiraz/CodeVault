@@ -1,0 +1,11 @@
+services:
+  postgres:
+    container_name: postgres
+    image: "postgres:latest"
+    env_file:
+      - database.env
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql
+    ports:
+      - "5432:5432"
+    restart: unless-stopped

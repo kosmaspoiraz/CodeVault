@@ -1,6 +1,5 @@
 package com.example.CodeVault.Record;
 
-import org.apache.logging.log4j.message.StringFormattedMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,12 +10,12 @@ import java.util.Optional;
 @Service
 public class RecordService {
 
+    private final RecordRepository recordRepository;
+
     @Autowired
     public RecordService(RecordRepository recordRepository) {
         this.recordRepository = recordRepository;
     }
-
-    private final RecordRepository recordRepository;
 
     public List<Record> getRecords(){
         return recordRepository.findAll();
@@ -36,6 +35,13 @@ public class RecordService {
             throw new IllegalStateException("Record with id:" + recordId + " does not exist!");
         }
         recordRepository.deleteById(recordId);
+    }
+
+    public void deleteAllRecordsByVaultId(Long vault_id){
+        List<Optional<Record>> recordsToDelete = recordRepository.findRecordsByVaultId(vault_id);
+        recordsToDelete.forEach(
+                (temp)-> deleteRecord(temp.orElse(null).getId())
+        );
     }
 
     @Transactional
