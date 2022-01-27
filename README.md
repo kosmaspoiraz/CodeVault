@@ -21,8 +21,6 @@ Url: jdbc:postgresql://localhost:5432/codevault
 
 And will be accessible from port `5432`.
 
-Some data is already created for you to speed up the process.
-
 You can review the database schema inside the file `db/init.sql
 
 ### Build and run the application
